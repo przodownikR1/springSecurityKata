@@ -50,10 +50,10 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/business**").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_BUSINESS')")
             /*.anyRequest().authenticated()*/
             .and()
-            .formLogin().failureUrl("/login?error")
+            .formLogin().failureUrl("/welcome?error")
             .defaultSuccessUrl("/welcome")
-            .loginPage("/login").permitAll().and()
-            .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
+            .loginPage("/welcome").permitAll().and()
+            .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/welcome")
             .permitAll();
     }
         

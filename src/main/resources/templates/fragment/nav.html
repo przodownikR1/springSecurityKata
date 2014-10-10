@@ -95,12 +95,14 @@
           </ul>
          
            <form action="#" th:action="@{'/j_spring_security_check'}" class="navbar-form navbar-right" role="search" method="POST" id="login-user-form">
-                        <p th:if="${loginError}">Wrong user or password</p>
+                       <p th:if="${param.error}">Wrong user or password</p>
                         <input name="j_username" type="text" placeholder="Email"  class="span2" maxlength="50" id="username_or_email" size="25"
                             autocomplete="on" /> <input class="span2" name="j_password"
                             type="password" maxlength="50" placeholder="Password"  id="j_password" size="25" />
+                            <input th:name="${_csrf.parameterName}" type="hidden" th:value="${_csrf.token}" />
                         <button type="submit" class="btn btn-default navbar-btn">Sign in</button>
           </form>
+
 
 
 
