@@ -48,7 +48,7 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/appContext").hasRole("ADMIN")
             .antMatchers("/api/user/**").hasRole("USER")
             .antMatchers("/api/business**").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_BUSINESS')")
-            .anyRequest().authenticated()
+            /*.anyRequest().authenticated()*/
             .and()
             .formLogin().failureUrl("/login?error")
             .defaultSuccessUrl("/welcome")

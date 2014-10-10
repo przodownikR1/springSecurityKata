@@ -14,7 +14,16 @@
 	<div th:include="fragment/nav :: nav" />
 </body>
 <br />
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+  This content is only shown to administrators.
+</div>
+<div sec:authorize="hasRole('ROLE_USER')">
+  This content is only shown to users.
+</div>
 <br />
+Logged user: <span sec:authentication="name">Bob</span>
+<br />
+
 <br />
 <br />
 <br />

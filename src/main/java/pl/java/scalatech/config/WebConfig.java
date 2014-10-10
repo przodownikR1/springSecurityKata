@@ -72,27 +72,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/logout").setViewName("logout");
     }
-
-
-
-   /* @Bean
-    public SpringTemplateEngine templateEngine() {
-        SpringTemplateEngine engine = new SpringTemplateEngine();
-        engine.setTemplateResolver(templateResolver());
-        Set<IDialect> dialects = new HashSet<>();
-        dialects.add(springSecurityDialect());
-        dialects.add(layoutDialect());
-        engine.setAdditionalDialects(dialects);
-        return engine;
-    }
-
-    @Bean
-    public ThymeleafViewResolver viewResolver() {
-        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-        viewResolver.setTemplateEngine(templateEngine());
-        return viewResolver;
-    }
-*/
+  
     @Bean
     public TemplateResolver templateResolver() {
         ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
@@ -112,20 +92,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return templateResolver;
     }
 
- /*   @Bean 
-    public LayoutDialect layoutDialect(){
-      LayoutDialect dialect = new LayoutDialect();
-      return dialect;
-    }
-    
-    
-    
-    @Bean
-    public SpringSecurityDialect springSecurityDialect() {
-        SpringSecurityDialect springSecurityDialect = new SpringSecurityDialect();
-        return springSecurityDialect;
-    }
-*/
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.favorPathExtension(true).favorParameter(true).parameterName("mediaType").ignoreAcceptHeader(false)
@@ -147,3 +113,35 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return localValidatorFactoryBean;
     }
 }
+/* @Bean
+public SpringTemplateEngine templateEngine() {
+    SpringTemplateEngine engine = new SpringTemplateEngine();
+    engine.setTemplateResolver(templateResolver());
+    Set<IDialect> dialects = new HashSet<>();
+    dialects.add(springSecurityDialect());
+    dialects.add(layoutDialect());
+    engine.setAdditionalDialects(dialects);
+    return engine;
+}
+
+@Bean
+public ThymeleafViewResolver viewResolver() {
+    ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+    viewResolver.setTemplateEngine(templateEngine());
+    return viewResolver;
+}
+
+    @Bean 
+    public LayoutDialect layoutDialect(){
+      LayoutDialect dialect = new LayoutDialect();
+      return dialect;
+    }
+    
+    
+    
+    @Bean
+    public SpringSecurityDialect springSecurityDialect() {
+        SpringSecurityDialect springSecurityDialect = new SpringSecurityDialect();
+        return springSecurityDialect;
+    }
+*/
