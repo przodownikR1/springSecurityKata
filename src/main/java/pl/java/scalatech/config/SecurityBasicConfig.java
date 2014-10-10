@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -23,20 +24,21 @@ import org.springframework.stereotype.Service;
 public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        System.err.println("inMemoryAuth");
         auth.inMemoryAuthentication()
-         .withUser("user").password("user").roles("USER").and()
+         .withUser("user").password("slawek").roles("USER").and()
          .withUser("business").password("slawek").roles("BUSINESS").and()
-         .withUser("admin").password("password").roles("USER", "ADMIN");
+         .withUser("admin").password("slawek").roles("USER", "ADMIN");
 
     }
     
-    @Override
+   /* @Override
     public void configure(WebSecurity web) throws Exception {
       web.ignoring().antMatchers("/assets/**","/css/**","/js/**","/images/**");
-    }
+    }*/
     
     @Configuration
-    @Order(200)                                                        
+    @Order(1)                                                        
     public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
@@ -48,12 +50,18 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/business**").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_BUSINESS')")
             .anyRequest().authenticated()
             .and()
-            .formLogin()
-            .loginPage("/login").permitAll();
+            .formLogin().failureUrl("/login?error")
+            .defaultSuccessUrl("/welcome")
+            .loginPage("/login").permitAll().and()
+            .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
+            .permitAll();
     }
+        
+    }
+        
 
-    @Configuration         
-    @Order(300)  
+  /* @Configuration         
+    @Order(2)  
     public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
         @Override
@@ -65,8 +73,6 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
                     .formLogin().loginPage("/login").permitAll();
         }
     }
-}
+*/
     
-
-   
 }

@@ -7,7 +7,7 @@
         <title>Login page</title>
       </head>
       <body>
-      <head th:include="fragment/headTag :: headTag">
+      <head th:include="fragment/headTag :: headTag"/>
         <h1>Login page</h1>
         <p th:if="${param.error}">Wrong user or password</p>
         <form th:action="@{/j_spring_security_check}" method="post">
@@ -15,8 +15,8 @@
           <input type="text" id="j_username" name="j_username" /> <br />
           <label for="j_password">Password</label>:
           <input type="password" id="j_password" name="j_password" /> <br />
-          
-          <input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token}"/>
+          <input th:name="${_csrf.parameterName}" type="hidden" th:value="${_csrf.token}" />
+     
           <input type="submit"  class="btn" value="Log in" />
         </form>
       </body>

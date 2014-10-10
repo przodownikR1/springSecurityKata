@@ -18,7 +18,7 @@ import pl.java.scalatech.repository.UserRepository;
 
 
 @Slf4j
-@Component
+//@Component
 @DependsOn("stringEncryptor")
 public class UserServiceDetailsImpl implements UserDetailsService {
 

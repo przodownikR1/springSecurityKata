@@ -15,6 +15,7 @@ import org.springframework.core.io.ClassPathResource;
 public class ProdPlaceholderConfig {
     @Bean
     public EnvironmentStringPBEConfig environmentVariablesConfiguration() {
+        System.err.println("-------------------------------------------");
         EnvironmentStringPBEConfig config = new EnvironmentStringPBEConfig();
         config.setAlgorithm("PBEWithMD5AndDES");
         config.setPasswordEnvName("slawek");
