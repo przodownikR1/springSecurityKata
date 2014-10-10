@@ -12,16 +12,21 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Configuration
 @EnableWebSecurity
+@EnableWebMvcSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @Import(EncryptConfig.class)
 @ComponentScan(basePackages = { "pl.java.scalatech.security" }, useDefaultFilters = false, includeFilters = { @Filter(Service.class), @Filter(Component.class) })
 public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
+    
+    
+    
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         System.err.println("inMemoryAuth");
