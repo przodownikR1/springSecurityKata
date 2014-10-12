@@ -19,11 +19,6 @@ import org.springframework.stereotype.Service;
 import pl.java.scalatech.config.AppConfig;
 import pl.java.scalatech.service.user.UserService;
 
-/**
- * @author Sławomir Borowiec
- *         Module name : bootSetting
- *         Creating time : 17 wrz 2014 09:49:25
- */
 @Configuration
 @EnableAutoConfiguration
 @EnableAsync

@@ -8,17 +8,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler;
 import org.springframework.security.web.util.UrlUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-public class AuthFailureHandlerImpl extends ExceptionMappingAuthenticationFailureHandler implements AuthenticationFailureHandler {
-
-	private static final Logger logger = LoggerFactory.getLogger(AuthFailureHandlerImpl.class);
+@Component
+@Slf4j
+public class AuthFailureHandlerImpl extends ExceptionMappingAuthenticationFailureHandler {
 
 	private Map<String, String> failureUrlMap = new HashMap<>();
 
@@ -30,7 +30,7 @@ public class AuthFailureHandlerImpl extends ExceptionMappingAuthenticationFailur
 		if (exception.getAuthentication() != null) {
 			username = exception.getAuthentication().getName();
 		} else {
-			logger.info("login failure username :" + username);
+            log.info("login failure username :" + username);
 		}
 		if (url != null) {
 			getRedirectStrategy().sendRedirect(request, response, url);
@@ -40,7 +40,8 @@ public class AuthFailureHandlerImpl extends ExceptionMappingAuthenticationFailur
 
 	}
 
-	public void setExceptionMappings(Map<?, ?> failureUrlMap) {
+	@Override
+    public void setExceptionMappings(Map<?, ?> failureUrlMap) {
 		this.failureUrlMap.clear();
 		for (Map.Entry<?, ?> entry : failureUrlMap.entrySet()) {
 			Object exception = entry.getKey();

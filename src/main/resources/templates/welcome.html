@@ -26,10 +26,25 @@ Logged user: <span sec:authentication="name">Bob</span>
 
 <br />
 <br />
+<p th:utext="#{hello}">Hello world !</p>
+
 <br />
 <br />
 <br />
 <br />
+
+        <div th:if="${param.error}">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+        <form th:action="@{/welcome}" method="post">
+            <div><label> User Name : <input type="text" name="username"/> </label></div>
+            <div><label> Password: <input type="password" name="password"/> </label></div>
+            <div><input type="submit" value="Sign In"/></div>
+        </form>
+    
 <br />
 
 <div th:include="fragment/footer :: footer" />

@@ -2,9 +2,14 @@ package pl.java.scalatech.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import pl.java.scalatech.annotation.CurrentUser;
+import pl.java.scalatech.domain.User;
 
 @Controller
 public class SecurityController {
@@ -19,5 +24,11 @@ public class SecurityController {
         }
         model.addAttribute("errorMessage", errorMessage.toString());
         return "error.html";
+    }
+
+    @RequestMapping("/currentUser")
+    public ResponseEntity<User> findMessagesForUser(@CurrentUser User user) {
+        return new ResponseEntity<>(user, HttpStatus.OK);
+
     }
 }

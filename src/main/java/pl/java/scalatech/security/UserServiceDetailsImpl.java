@@ -3,8 +3,6 @@ package pl.java.scalatech.security;
 import lombok.extern.slf4j.Slf4j;
 
 import org.jasypt.encryption.StringEncryptor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.dao.DataAccessException;
@@ -18,7 +16,7 @@ import pl.java.scalatech.repository.UserRepository;
 
 
 @Slf4j
-//@Component
+@Component
 @DependsOn("stringEncryptor")
 public class UserServiceDetailsImpl implements UserDetailsService {
 

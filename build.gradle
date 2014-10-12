@@ -3,7 +3,7 @@ buildscript {
         maven { url "http://repo.spring.io/libs-milestone" }
         mavenLocal()
     }
-    dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.7.RELEASE") }
+    dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.8.RELEASE") }
 }
 
 apply plugin: 'java'
@@ -78,7 +78,7 @@ dependencies {
 
     compile ("org.codehaus.groovy:groovy:${groovyVersion}")
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
+   // compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-aop")
     compile("org.springframework.boot:spring-boot-starter-data-mongodb")
  
@@ -98,8 +98,8 @@ dependencies {
     compile ("org.springframework:spring-context:${springVersion}"){ exclude(module: 'commons-logging') }
     compile ("org.springframework:spring-context-support:${springVersion}"){ exclude(module: 'commons-logging') }
     
-    compile ("org.springframework:spring-orm:${springVersion}"){ exclude(module: 'commons-logging') }
-    compile ("org.springframework:spring-tx:${springVersion}"){ exclude(module: 'commons-logging') }
+    //compile ("org.springframework:spring-orm:${springVersion}"){ exclude(module: 'commons-logging') }
+    //compile ("org.springframework:spring-tx:${springVersion}"){ exclude(module: 'commons-logging') }
     compile ("org.springframework:spring-aop:${springVersion}"){ exclude(module: 'commons-logging') }
 
     compile ("org.springframework:spring-aspects:${springVersion}"){ exclude(module: 'commons-logging') }
@@ -140,7 +140,6 @@ dependencies {
     compile("org.mockito:mockito-all:$mockitoVersion")
     testCompile("junit:junit:$junitVersion")
     testCompile("org.easytesting:fest-assert:${festAssertVersion}")
-    testCompile("com.googlecode.catch-exception:catch-exception:1.2.0")
     testCompile ("org.springframework:spring-test:${springVersion}")
 
 
@@ -149,11 +148,15 @@ dependencies {
 uploadArchives {
     repositories { flatDir { dirs 'repos' } }
 }
-
+/*configurations.all {
+resolutionStrategy {
+    failOnVersionConflict()
+  }
+}*/
 configurations.all {
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         if (details.requested.group == 'org.springframework') {
-            details.useVersion '4.1.1.RELEASE'
+            details.useVersion '4.1.0.RELEASE'
         }
     }
 }

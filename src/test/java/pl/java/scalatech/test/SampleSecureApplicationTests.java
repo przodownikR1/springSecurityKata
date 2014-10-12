@@ -9,10 +9,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -20,16 +20,17 @@ import pl.java.scalatech.config.MongoDBConfig;
 import pl.java.scalatech.config.MongoRepositoryConfig;
 import pl.java.scalatech.config.SecurityBasicConfig;
 import pl.java.scalatech.config.ServiceConfig;
-import pl.java.scalatech.service.SampleService;
+import pl.java.scalatech.service.MyService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = { SecurityBasicConfig.class,MongoRepositoryConfig.class,MongoDBConfig.class ,ServiceConfig.class })
+@SpringApplicationConfiguration(classes = { SecurityBasicConfig.class, MongoRepositoryConfig.class, MongoDBConfig.class, ServiceConfig.class })
 public class SampleSecureApplicationTests {
     @Autowired
-    private SampleService service;
+    private MyService service;
     @Autowired
     private ApplicationContext context;
     private Authentication authentication;
+
     @Before
     public void init() {
         AuthenticationManager authenticationManager = this.context.getBean(AuthenticationManager.class);
@@ -41,27 +42,30 @@ public class SampleSecureApplicationTests {
         SecurityContextHolder.clearContext();
     }
 
-    @Test(expected = AuthenticationException.class)
-    public void secure() throws Exception {
-        assertEquals(this.service.secure(), "Hello Security");
+    @Test
+    public void shouldSecure() throws Exception {
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        assertEquals(this.service.secure(), MyService.RESULT);
+
     }
 
     @Test
-    public void authenticated() throws Exception {
+    public void shouldAuthenticated() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
-        assertEquals(this.service.secure(), "Hello Security");
+        assertEquals(this.service.secure(), MyService.RESULT);
     }
 
     @Test
-    public void preauth() throws Exception {
+    public void shouldPreauth() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
-        assertEquals(this.service.authorized(), "Hello World");
+        assertEquals(this.service.authorized(), MyService.RESULT);
     }
 
-    @Test
-    public void denied() throws Exception {
+    @Test(expected = AccessDeniedException.class)
+    public void shouldDenied() throws Exception {
+
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
-        assertEquals(this.service.denied(), "Goodbye World");
+        assertEquals(this.service.denied(), MyService.RESULT);
     }
 
 }
