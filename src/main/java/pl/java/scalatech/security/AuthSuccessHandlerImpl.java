@@ -14,12 +14,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.stereotype.Component;
 
+import pl.java.scalatech.annotation.SecurityComponent;
 import pl.java.scalatech.service.user.UserService;
 
 @Slf4j
-@Component
+@SecurityComponent
 public class AuthSuccessHandlerImpl extends SavedRequestAwareAuthenticationSuccessHandler {
 
     @SuppressWarnings("unused")

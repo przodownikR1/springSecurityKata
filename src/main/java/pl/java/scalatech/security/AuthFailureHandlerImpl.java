@@ -16,7 +16,9 @@ import org.springframework.security.web.util.UrlUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-@Component
+import pl.java.scalatech.annotation.SecurityComponent;
+
+@SecurityComponent
 @Slf4j
 public class AuthFailureHandlerImpl extends ExceptionMappingAuthenticationFailureHandler {
 

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.accept.ContentNegotiationManager;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -72,9 +73,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/welcome").setViewName("welcome");
+        registry.addViewController("/").setViewName("welcome");
         registry.addViewController("/logout").setViewName("logout");
         registry.addViewController("/home").setViewName("home");
-
+        registry.addViewController("/register").setViewName("register");
         registry.addViewController("/hello").setViewName("hello");
         registry.addViewController("/login").setViewName("login");
     }
@@ -92,7 +94,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         lci.setParamName("lang");
         return lci;
     }
-  
+
     @Bean
     public TemplateResolver templateResolver() {
         ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
@@ -132,36 +134,40 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         localValidatorFactoryBean.setValidationMessageSource(messageSource());
         return localValidatorFactoryBean;
     }
-}
-/* @Bean
-public SpringTemplateEngine templateEngine() {
-    SpringTemplateEngine engine = new SpringTemplateEngine();
-    engine.setTemplateResolver(templateResolver());
-    Set<IDialect> dialects = new HashSet<>();
-    dialects.add(springSecurityDialect());
-    dialects.add(layoutDialect());
-    engine.setAdditionalDialects(dialects);
-    return engine;
-}
 
-@Bean
-public ThymeleafViewResolver viewResolver() {
-    ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-    viewResolver.setTemplateEngine(templateEngine());
-    return viewResolver;
+    @Controller
+    static class FaviconController {
+        @RequestMapping("favicon.ico")
+        String favicon() {
+            return "forward:/resources/images/favicon.ico";
+        }
+    }
 }
-
-    @Bean 
-    public LayoutDialect layoutDialect(){
-      LayoutDialect dialect = new LayoutDialect();
-      return dialect;
-    }
-    
-    
-    
-    @Bean
-    public SpringSecurityDialect springSecurityDialect() {
-        SpringSecurityDialect springSecurityDialect = new SpringSecurityDialect();
-        return springSecurityDialect;
-    }
-*/
+/*
+ * @Bean
+ * public SpringTemplateEngine templateEngine() {
+ * SpringTemplateEngine engine = new SpringTemplateEngine();
+ * engine.setTemplateResolver(templateResolver());
+ * Set<IDialect> dialects = new HashSet<>();
+ * dialects.add(springSecurityDialect());
+ * dialects.add(layoutDialect());
+ * engine.setAdditionalDialects(dialects);
+ * return engine;
+ * }
+ * @Bean
+ * public ThymeleafViewResolver viewResolver() {
+ * ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+ * viewResolver.setTemplateEngine(templateEngine());
+ * return viewResolver;
+ * }
+ * @Bean
+ * public LayoutDialect layoutDialect(){
+ * LayoutDialect dialect = new LayoutDialect();
+ * return dialect;
+ * }
+ * @Bean
+ * public SpringSecurityDialect springSecurityDialect() {
+ * SpringSecurityDialect springSecurityDialect = new SpringSecurityDialect();
+ * return springSecurityDialect;
+ * }
+ */

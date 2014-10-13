@@ -9,14 +9,14 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 
+import pl.java.scalatech.annotation.SecurityComponent;
 import pl.java.scalatech.domain.User;
 import pl.java.scalatech.repository.UserRepository;
 
 
 @Slf4j
-@Component
+@SecurityComponent
 @DependsOn("stringEncryptor")
 public class UserServiceDetailsImpl implements UserDetailsService {
 

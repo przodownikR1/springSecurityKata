@@ -7,18 +7,13 @@
 
 <head th:include="fragment/headTag :: headTag">
     <title>demonstration application</title>
-   <link rel="shortcut icon" type="image/png" th:href="@{/images/favicon.png}"></link>
+   <link rel="shortcut icon" type="image/png" th:href="@{/favicon}"></link>
 		<title th:text="${title}">(title)</title>
 		<link th:href="@{/assets/bootstrap/3.2.0/css/bootstrap.css}" rel="stylesheet"></link>
-
 		<link rel="stylesheet" type="text/css" th:href="@{/assets/bootstrap/3.2.0/css/bootstrap.min.css}" />
 		<script type="text/javascript" th:href="@{/assets/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
-		<script type="text/javascript" th:href="@{/assets/jquery/2.1.1/jquery.js}"></script>
-
-   
+		<script type="text/javascript" th:href="@{/assets/jquery/2.1.1/jquery.js}"></script>   
 </head>
-
-
 
 <body th:fragment="nav">
     <div class="navbar navbar-default navbar-fixed-top" role="navigation" >
@@ -90,28 +85,40 @@
                 <li class="divider-vertical" />
                 
                  
+               <li class="divider-vertical" />
+                 <li class="dropdown"> 
+                   <li ><a href="#" th:href="@{/logout}"><span class="glyphicon glyphicon-info-sign"  data-toggle="modal" data-target="#myModal"></span>Logout</a></li>
+                  </li>
+          </ul>
+          
+           
+                 
              
                             
-          </ul>
+        
+          
           <!-- /j_spring_security_check' -->
            <form action="#" th:action="@{'/welcome'}" class="navbar-form navbar-right" role="search" method="POST" id="login-user-form">
                        <p th:if="${param.error}">Wrong user or password</p>
-                        <input name="j_username" type="text" placeholder="Email"  class="span2" maxlength="50" id="username_or_email" size="25"
-                            autocomplete="on" /> <input class="span2" name="j_password"
+                        <input name="username" type="text" placeholder="Email"  class="form-control" maxlength="50" id="username_or_email" size="25"
+                            autocomplete="on" /> <input class="form-control" name="password"
                             type="password" maxlength="50" placeholder="Password"  id="j_password" size="25" />
-                          <!--   <input th:name="${_csrf.parameterName}" type="hidden" th:value="${_csrf.token}" /> -->
+                            <input th:name="${_csrf.parameterName}" type="hidden" th:value="${_csrf.token}" />
                         <button type="submit" class="btn btn-default navbar-btn">Sign in</button>
-          </form>
+          </form> 
 
 
-
+     
+  
 
           <form action="#" th:action="@{'/search'}" class="navbar-form navbar-left" role="search" method="POST" id="search-form">
-              <input class="search-query input-medium" name="search" type="text" maxlength="50" placeholder="Search" size="25" />
+              <input class="form-control" name="search" type="text" maxlength="50" placeholder="Search" size="25" />
               <button type="submit" class="btn btn-default navbar-btn">
                   <span class="glyphicon glyphicon-search"></span>Search
               </button>
           </form>
+          
+          
           
         </div>
       </div>
