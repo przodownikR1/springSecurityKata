@@ -57,13 +57,13 @@ public class User extends PKEntity<String> implements UserDetails {
     private int attemptLoginCount;
 
     @DBRef
-    private List<Role> roles = Lists.newArrayList();
+    private List<Role> roles ;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> grantedAuthoritiesSet = new HashSet<>(getRoles().size());
         for (Role role : getRoles()) {
-            grantedAuthoritiesSet.add(new SimpleGrantedAuthority("ROLE_"+role.getId().toUpperCase()));
+            grantedAuthoritiesSet.add(new SimpleGrantedAuthority(role.getId().toUpperCase()));
         }
         log.info("roles  ++++++++++++++++++++++++++++++++++++++++++++++++   "+grantedAuthoritiesSet);
         return grantedAuthoritiesSet;

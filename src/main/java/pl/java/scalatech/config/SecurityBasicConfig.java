@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ import pl.java.scalatech.annotation.SecurityComponent;
 @Slf4j
 @ComponentScan(basePackages = { "pl.java.scalatech.security" }, useDefaultFilters = false, includeFilters = { @Filter(Service.class), @Filter(SecurityComponent.class) })
 public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
-  
+    private static final int  MAX_SESSIONS    = 3;
     
     
     @Configuration
@@ -51,14 +52,27 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
         
         @Override
         protected void configure(HttpSecurity http) throws Exception {
+            AccessDeniedHandlerImpl deniedhandler = new AccessDeniedHandlerImpl();
+            deniedhandler.setErrorPage("/accessdenied.html");
             http
                .authorizeRequests().antMatchers("/welcome", "/api/ping", "/signup", "/about","/register","/currentUser").permitAll()
               .antMatchers("/api/admin/**").hasRole("ADMIN")
               .antMatchers("/api/appContext").hasRole("ADMIN")
+              .antMatchers("/metrics/**").hasAuthority("ADMIN")
+              .antMatchers("/health/**").hasAuthority("ADMIN")
+              .antMatchers("/trace/**").hasAuthority("ADMIN")
+              .antMatchers("/dump/**").hasAuthority("ADMIN")
+              .antMatchers("/shutdown/**").hasAuthority("ADMIN")
+              .antMatchers("/beans/**").hasAuthority("ADMIN")
+              .antMatchers("/info/**").hasAuthority("ADMIN")
+              .antMatchers("/autoconfig/**").hasAuthority("ADMIN")
+              .antMatchers("/env/**").hasAuthority("ADMIN")
+              .antMatchers("/trace/**").hasAuthority("ADMIN")
               .antMatchers("/api/user/**").hasRole("USER")
               .antMatchers("/currentUser").hasRole("USER")
               .antMatchers("/api/business**").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_BUSINESS')")
               .anyRequest().authenticated();
+            
                     
          
        
@@ -68,18 +82,29 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
             .permitAll()
             .and()
             .logout().logoutSuccessUrl("/welcome").invalidateHttpSession(true).logoutSuccessHandler(logoutSuccessHander).deleteCookies("JSESSIONID")
-             .permitAll();
+             .permitAll()
+             .and()
+             /*.exceptionHandling()
+             .accessDeniedHandler(deniedhandler)
+             .and()*/
+             .sessionManagement()
+             .sessionFixation().newSession()
+             .maximumSessions(MAX_SESSIONS)
+             .maxSessionsPreventsLogin(true);
+             
+             
             
-            
+             
         }
-        
+      
        @Autowired
         public void configureGlobal(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, AuthenticationManagerBuilder auth) throws Exception {
             log.info("+++++                         userDetailsService");
+            
             auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
         }
         
-     /*   @Autowired
+   /*   @Autowired
         public void configureGlobal(AuthenticationManagerBuilder auth,PasswordEncoder passwordEncoder) throws Exception {
            //test=$2a$10$aX5e.eGXfbujQeQ1z1sP2.6p0z08Nu4IwGv/Qyik6UIFHltglwrhm
            auth.inMemoryAuthentication().passwordEncoder(passwordEncoder)

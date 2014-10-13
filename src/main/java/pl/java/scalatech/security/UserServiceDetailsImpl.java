@@ -71,7 +71,7 @@ public class UserServiceDetailsImpl implements UserDetailsService {
 
             users.forEach(u -> userRepository.save(u));
         }
-        log.info("+++                               {}", userRepository.findUserByLogin("przodownik"));
+        log.info("+++                               {}  --> roles : {}    ", userRepository.findUserByLogin("przodownik"),userRepository.findUserByLogin("przodownik").getAuthorities());
         // log.info("+++                               {}", userRepository.findUserByLoginOrEmail("przodownik"));
     }
 
