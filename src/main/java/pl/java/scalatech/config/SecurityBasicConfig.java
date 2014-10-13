@@ -15,6 +15,9 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,8 @@ import pl.java.scalatech.annotation.SecurityComponent;
 @ComponentScan(basePackages = { "pl.java.scalatech.security" }, useDefaultFilters = false, includeFilters = { @Filter(Service.class), @Filter(SecurityComponent.class) })
 public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
   
+    
+    
     @Configuration
     @Order(1)                                                        
     public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
@@ -37,7 +42,8 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
         private AuthenticationSuccessHandler authSuccessHandler;
         @Autowired
         private LogoutSuccessHandler logoutSuccessHander;
-
+      
+        
         @Override
         public void configure(WebSecurity web) throws Exception {
             web.ignoring().antMatchers("/assets/**").antMatchers("/css/**").antMatchers("/js/**").antMatchers("/images/**").antMatchers("/favicon.ico");
@@ -46,14 +52,15 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
-               .authorizeRequests().antMatchers("/welcome", "/api/ping", "/signup", "/about","/register").permitAll()
+               .authorizeRequests().antMatchers("/welcome", "/api/ping", "/signup", "/about","/register","/currentUser").permitAll()
               .antMatchers("/api/admin/**").hasRole("ADMIN")
               .antMatchers("/api/appContext").hasRole("ADMIN")
               .antMatchers("/api/user/**").hasRole("USER")
+              .antMatchers("/currentUser").hasRole("USER")
               .antMatchers("/api/business**").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_BUSINESS')")
               .anyRequest().authenticated();
                     
-
+         
        
             http
             .formLogin()
@@ -65,15 +72,22 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
             
             
         }
-        @Autowired
-        public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
-            log.info("+++++                         inMemoryAuth");
-            auth.inMemoryAuthentication()
-    .withUser("user").password("slawek").roles("USER").and().withUser("business").password("slawek").roles("BUSINESS").and()
-                    .withUser("admin").password("slawek").roles("USER", "ADMIN");
-
+        
+       @Autowired
+        public void configureGlobal(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, AuthenticationManagerBuilder auth) throws Exception {
+            log.info("+++++                         userDetailsService");
+            auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
         }
+        
+     /*   @Autowired
+        public void configureGlobal(AuthenticationManagerBuilder auth,PasswordEncoder passwordEncoder) throws Exception {
+           //test=$2a$10$aX5e.eGXfbujQeQ1z1sP2.6p0z08Nu4IwGv/Qyik6UIFHltglwrhm
+           auth.inMemoryAuthentication().passwordEncoder(passwordEncoder)
+           .withUser("user").password("$2a$10$aX5e.eGXfbujQeQ1z1sP2.6p0z08Nu4IwGv/Qyik6UIFHltglwrhm").roles("USER").and()
+           .withUser("business").password("$2a$10$aX5e.eGXfbujQeQ1z1sP2.6p0z08Nu4IwGv/Qyik6UIFHltglwrhm").roles("BUSINESS").and()
+           .withUser("admin").password("$2a$10$aX5e.eGXfbujQeQ1z1sP2.6p0z08Nu4IwGv/Qyik6UIFHltglwrhm").roles("USER", "ADMIN");
+
+        }*/
     }
         
 
@@ -88,6 +102,8 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().authenticated()
                     .and()
                     .formLogin().loginPage("/login").permitAll();
+            http.sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         }
         
         @Autowired

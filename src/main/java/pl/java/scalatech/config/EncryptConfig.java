@@ -15,6 +15,9 @@ public class EncryptConfig {
     @Autowired
     private Environment environment;
 
+    
+   
+    
     @Bean
     public StringEncryptor stringEncryptor() {
         PBEStringEncryptor encryption = new StandardPBEStringEncryptor();

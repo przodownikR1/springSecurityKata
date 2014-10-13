@@ -1,5 +1,6 @@
 package pl.java.scalatech.domain;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Builder;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -29,6 +31,7 @@ import com.mysema.query.annotations.QueryEntity;
 @AllArgsConstructor
 @Builder
 @QueryEntity
+@Slf4j
 public class User extends PKEntity<String> implements UserDetails {
 
     private static final long serialVersionUID = -6567709458397827407L;
@@ -60,8 +63,9 @@ public class User extends PKEntity<String> implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> grantedAuthoritiesSet = new HashSet<>(getRoles().size());
         for (Role role : getRoles()) {
-            grantedAuthoritiesSet.add(new SimpleGrantedAuthority(role.getId()));
+            grantedAuthoritiesSet.add(new SimpleGrantedAuthority("ROLE_"+role.getId().toUpperCase()));
         }
+        log.info("roles  ++++++++++++++++++++++++++++++++++++++++++++++++   "+grantedAuthoritiesSet);
         return grantedAuthoritiesSet;
     }
 

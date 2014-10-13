@@ -1,5 +1,7 @@
 package pl.java.scalatech.controller;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
@@ -27,8 +29,13 @@ public class SecurityController {
     }
 
     @RequestMapping("/currentUser")
-    public ResponseEntity<User> findMessagesForUser(@CurrentUser User user) {
+    public ResponseEntity<User> currentUser(@CurrentUser User user) {
         return new ResponseEntity<>(user, HttpStatus.OK);
+
+    }
+    @RequestMapping("/principal")
+    public ResponseEntity<String> principal(Principal principal) {
+        return new ResponseEntity<>(principal.getName(), HttpStatus.OK);
 
     }
 }
