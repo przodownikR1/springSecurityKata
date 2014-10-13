@@ -31,7 +31,7 @@ import pl.java.scalatech.annotation.SecurityComponent;
 public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
   
     @Configuration
-    @Order(2)                                                        
+    @Order(1)                                                        
     public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
         @Autowired
         private AuthenticationSuccessHandler authSuccessHandler;
@@ -78,7 +78,7 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
         
 
     @Configuration         
-    @Order(1)  
+    @Order(2)  
     public static class APISecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
         @Override
