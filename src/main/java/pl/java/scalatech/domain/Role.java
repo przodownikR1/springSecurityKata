@@ -8,7 +8,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mysema.query.annotations.QueryEntity;
 
-@Document
+
+@Document(collection = "roles")
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)

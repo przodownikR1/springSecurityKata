@@ -30,6 +30,7 @@ public class SampleSecureApplicationTests {
     @Autowired
     private ApplicationContext context;
     private Authentication authentication;
+    
 
     @Before
     public void init() {
