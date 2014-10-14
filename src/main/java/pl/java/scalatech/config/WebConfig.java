@@ -79,7 +79,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/register").setViewName("register");
         registry.addViewController("/hello").setViewName("hello");
         registry.addViewController("/login").setViewName("login");
-        registry.addViewController("/accessdenied").setViewName("accessdenied.html");
+        //registry.addViewController("/accessdenied").setViewName("accessdenied");
     }
 
     @Bean

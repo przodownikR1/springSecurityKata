@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -43,6 +44,8 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
         private AuthenticationSuccessHandler authSuccessHandler;
         @Autowired
         private LogoutSuccessHandler logoutSuccessHander;
+        @Autowired
+        private AccessDeniedHandler accessDeniedHandler;
       
         
         @Override
@@ -52,10 +55,9 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
         
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            AccessDeniedHandlerImpl deniedhandler = new AccessDeniedHandlerImpl();
-            deniedhandler.setErrorPage("/accessdenied.html");
+          
             http
-               .authorizeRequests().antMatchers("/welcome", "/api/ping", "/signup", "/about","/register","/currentUser").permitAll()
+               .authorizeRequests().antMatchers("/welcome","/accessdenied", "/api/ping", "/signup", "/about","/register","/currentUser").permitAll()
               .antMatchers("/api/admin/**").hasRole("ADMIN")
               .antMatchers("/api/appContext").hasRole("ADMIN")
               .antMatchers("/metrics/**").hasAuthority("ADMIN")
@@ -84,9 +86,9 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
             .logout().logoutSuccessUrl("/welcome").invalidateHttpSession(true).logoutSuccessHandler(logoutSuccessHander).deleteCookies("JSESSIONID")
              .permitAll()
              .and()
-             /*.exceptionHandling()
-             .accessDeniedHandler(deniedhandler)
-             .and()*/
+             .exceptionHandling()
+              .accessDeniedHandler(accessDeniedHandler)
+              .and()
              .sessionManagement()
              .sessionFixation().newSession()
              .maximumSessions(MAX_SESSIONS)

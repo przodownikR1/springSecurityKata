@@ -20,12 +20,11 @@ public class AccessDeniedHandlerNature implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException,
             ServletException {
-        log.info("handle access denied  path {} , message {}: ", request.getPathInfo(), accessDeniedException.getMessage());
+        log.info("handle access denied  path {} , message {}  , cause {}: ", request.getPathInfo(), accessDeniedException.getMessage());
+        log.info("++++   {}", request.getContextPath() + "/accessdenied");
         String path = request.getRequestURI();
-        request.setAttribute("errorDetails", accessDeniedException.getMessage());
-        request.setAttribute("path", path);
-        request.setAttribute("user", request.getUserPrincipal().getName());
-        response.sendError(HttpServletResponse.SC_FORBIDDEN, accessDeniedException.getMessage());
+        // response.sendError(HttpServletResponse.SC_FORBIDDEN, accessDeniedException.getMessage());
+        response.sendRedirect(request.getContextPath() + "/accessdenied?error=" + accessDeniedException.getMessage() + "&url=" + path);
 
     }
 

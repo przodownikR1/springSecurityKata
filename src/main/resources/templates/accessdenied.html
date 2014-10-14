@@ -1,9 +1,24 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <title>AccessDenied page</title>
-  </head>
-  <body>
-    
-  </body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>AccessDenied page</title>
+<head th:include="fragment/headTag :: headTag"/>
+</head>
+<body>
+	<table border="1" >
+		<tr>
+			<td>Message :</td>
+			<td th:text="${errorMessage}">Error Message</td>
+		</tr>
+		<tr>
+			<td>Secure url:</td>
+			<td><a href="#" th:text="${path}">Url ...</a></td>
+		</tr>
+		<tr>
+			<td>Login :</td>
+			<td th:text="${user.login}">User ...</td>
+		</tr>
+	</table>
+</body>
 </html>
