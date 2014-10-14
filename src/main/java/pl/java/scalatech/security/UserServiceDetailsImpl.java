@@ -59,17 +59,24 @@ public class UserServiceDetailsImpl implements UserDetailsService {
         log.info("+++                               {}", roleRepository.findOne("user"));
 
         if (userRepository.count() == 0) {
-            users.add(User.builder().login("przodownik").password(passwordEncoder.encode("test")).activated(true).email("przodownik@tlen.pl")
-                    .fistName("slawek").lastName("borowiec").logged(false).roles(Lists.newArrayList(roleRepository.findOne("user"))).build());
-            users.add(User.builder().login("admin").password(passwordEncoder.encode("test")).activated(true).email("admin@tlen.pl").fistName("admin")
-                    .lastName("borowiec").logged(false).roles(Lists.newArrayList(roleRepository.findOne("admin"))).build());
-            users.add(User.builder().login("buisness").password(passwordEncoder.encode("test")).activated(true).email("business@tlen.pl").fistName("buisness")
-                    .lastName("borowiec").logged(false).roles(Lists.newArrayList(roleRepository.findOne("business"))).build());
-            users.add(User.builder().login("bak").password(passwordEncoder.encode("test")).activated(true).email("bak@tlen.pl").fistName("kalinka")
-                    .lastName("borowiec").logged(false)
-                    .roles(Lists.newArrayList(roleRepository.findOne("user"), roleRepository.findOne("admin"), roleRepository.findOne("business"))).build());
+            User one = User.builder().login("przodownik").password(passwordEncoder.encode("test")).activated(true).email("przodownik@tlen.pl")
+                    .fistName("slawek").lastName("borowiec").logged(false).roles(Lists.newArrayList(roleRepository.findOne("user"))).build();
 
-            users.forEach(u -> userRepository.save(u));
+            userRepository.save(one);
+
+            User two = User.builder().login("admin").password(passwordEncoder.encode("test")).activated(true).email("admin@tlen.pl").fistName("admin")
+                    .lastName("borowiec").logged(false).roles(Lists.newArrayList(roleRepository.findOne("admin"))).build();
+            userRepository.save(two);
+            User three = User.builder().login("buisness").password(passwordEncoder.encode("test")).activated(true).email("business@tlen.pl")
+                    .fistName("buisness").lastName("borowiec").logged(false).roles(Lists.newArrayList(roleRepository.findOne("business"))).build();
+            userRepository.save(three);
+            User four = User.builder().login("bak").password(passwordEncoder.encode("test")).activated(true).email("bak@tlen.pl").fistName("kalinka")
+                    .lastName("borowiec").logged(false)
+                    .roles(Lists.newArrayList(roleRepository.findOne("user"), roleRepository.findOne("admin"), roleRepository.findOne("business"))).build();
+            User fourLoaded = userRepository.save(four);
+            fourLoaded.getRoles().add(roleRepository.findOne("user"));
+            userRepository.save(fourLoaded);
+
         }
         log.info("+++                               {}  --> roles : {}    ", userRepository.findUserByLogin("przodownik"),userRepository.findUserByLogin("przodownik").getAuthorities());
         // log.info("+++                               {}", userRepository.findUserByLoginOrEmail("przodownik"));
