@@ -14,14 +14,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class EncryptConfig {
     @Autowired
     private Environment environment;
-
-    
    
-    
     @Bean
     public StringEncryptor stringEncryptor() {
         PBEStringEncryptor encryption = new StandardPBEStringEncryptor();
-       // String passwd = environment.getRequiredProperty("encryption.password") == null ? environment.getRequiredProperty("encryption.password") : "slawek";
+        // String passwd = environment.getRequiredProperty("encryption.password");
         String passwd = "slawek";
         encryption.setPassword(passwd);
         return encryption;

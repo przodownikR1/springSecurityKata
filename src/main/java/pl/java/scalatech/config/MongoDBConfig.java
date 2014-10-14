@@ -21,13 +21,11 @@ public class MongoDBConfig extends AbstractMongoConfiguration {
     @Autowired
     private Environment env;
 
-  
     @Value("${mongoDBName}")
     private String mongoDBName;
 
     @Value("${mongoPort}")
     private String mongoPort;
-
 
     @Bean
     public DB mongoDB() throws Exception {
@@ -44,7 +42,5 @@ public class MongoDBConfig extends AbstractMongoConfiguration {
     public String getDatabaseName() {
         return mongoDBName;
     }
-
-   
 
 }

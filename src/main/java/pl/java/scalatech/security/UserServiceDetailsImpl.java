@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import pl.java.scalatech.annotation.SecurityComponent;
 import pl.java.scalatech.domain.User;
-import pl.java.scalatech.repository.RoleRepository;
 import pl.java.scalatech.repository.UserRepository;
 
 @Slf4j
@@ -26,10 +25,6 @@ public class UserServiceDetailsImpl implements UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
 
 
     @Autowired

@@ -110,6 +110,6 @@ public class SecurityKataApp extends SpringBootServletInitializer {
 
         log.info("+++        {}  --> roles : {}    ", userRepository.findUserByLogin("przodownik"), userRepository.findUserByLogin("przodownik")
                 .getAuthorities());
-        // log.info("+++                               {}", userRepository.findUserByLoginOrEmail("przodownik"));
+
     }
 }

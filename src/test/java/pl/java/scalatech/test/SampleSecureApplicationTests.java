@@ -30,14 +30,31 @@ public class SampleSecureApplicationTests {
     @Autowired
     private ApplicationContext context;
     private Authentication authentication;
-    
+
+    /*
+     * @Autowired
+     * private PasswordEncoder passwordEncoder;
+     * @Autowired
+     * private UserDetailsService userDetailsService;
+     */
 
     @Before
     public void init() {
         AuthenticationManager authenticationManager = this.context.getBean(AuthenticationManager.class);
-        this.authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("user", "slawek"));
+        this.authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("przodownik", "test"));
     }
 
+    /*
+     * @Test
+     * public void test() {
+     * Role r_user = new Role("user", "user");
+     * User user = User.builder().login("przodownik").password(passwordEncoder.encode("test")).activated(true).email("przodownik@tlen.pl").fistName("slawek")
+     * .lastName("borowiec").logged(false).roles(newArrayList(r_user)).build();
+     * UserDetails userDetails = userDetailsService.loadUserByUsername(user.getLogin());
+     * Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, user.getPassword(), userDetails.getAuthorities());
+     * SecurityContextHolder.getContext().setAuthentication(authentication);
+     * }
+     */
     @After
     public void close() {
         SecurityContextHolder.clearContext();

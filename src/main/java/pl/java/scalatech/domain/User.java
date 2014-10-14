@@ -12,7 +12,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Builder;
-import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -29,9 +28,8 @@ import com.mysema.query.annotations.QueryEntity;
 @AllArgsConstructor
 @Builder
 @QueryEntity
-@Slf4j
-public class User extends PKEntity<String> implements UserDetails {
 
+public class User extends PKEntity<String> implements UserDetails {
     private static final long serialVersionUID = -6567709458397827407L;
     private String fistName;
     private String lastName;
@@ -63,7 +61,6 @@ public class User extends PKEntity<String> implements UserDetails {
         for (Role role : getRoles()) {
             grantedAuthoritiesSet.add(new SimpleGrantedAuthority(role.getId().toUpperCase()));
         }
-        log.info("roles  ++++++++++++++++++++++++++++++++++++++++++++++++   "+grantedAuthoritiesSet);
         return grantedAuthoritiesSet;
     }
 

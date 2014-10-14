@@ -33,17 +33,12 @@ Logged user: <span sec:authentication="name">Bob</span>
 <br />
 <br />
 
-<div th:if="${#httpServletRequest.remoteUser != null}">
-    <p th:text="${#httpServletRequest.remoteUser}">
-      sample_user
-    </p>
-</div>
+
 <br />
  <p>WITH THYMELEAF</p>
 <h4>httpServReqReference:</h4>
 <p th:text="${#httpServletRequest.remoteUser}"></p>
-<h4>securityNamespace</h4>
-<p sec:authentication="name"></p>
+
 Logged user: <span sec:authentication="name">someUser</span>
 <!-- Roles: <span sec:authentication="principal.authorities">[ROLE_X, ROLE_Y]</span> -->
 
