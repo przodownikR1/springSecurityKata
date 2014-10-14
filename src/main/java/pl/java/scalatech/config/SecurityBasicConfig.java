@@ -97,11 +97,9 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
             
              
         }
-      
+
        @Autowired
         public void configureGlobal(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, AuthenticationManagerBuilder auth) throws Exception {
-            log.info("+++++                         userDetailsService");
-            
             auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
         }
         
