@@ -1,6 +1,6 @@
 package pl.java.scalatech.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import lombok.Data;
 
@@ -23,8 +23,8 @@ public abstract class PKEntity<T> implements PKNature<T> {
 
     protected boolean disabled;
 
-    protected Date dateModification;
+    protected LocalDate dateModification;
 
-    protected Date dateAdded;
+    protected LocalDate dateAdded;
 
 }
