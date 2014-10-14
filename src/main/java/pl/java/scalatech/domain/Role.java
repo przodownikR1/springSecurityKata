@@ -1,26 +1,25 @@
 package pl.java.scalatech.domain;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.mysema.query.annotations.QueryEntity;
+import org.springframework.data.neo4j.annotation.NodeEntity;
 
 
-@Document(collection = "roles")
+@NodeEntity
+@RequiredArgsConstructor
 @Data
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@QueryEntity
-public class Role extends PKEntity<String> {
-   
-    private static final long serialVersionUID = -3013930190003887457L;
-    private String desc;
-    
-    public Role(String id , String desc){
-        this.setId(id);
-        this.desc = desc;
+public class Role extends CommonNeo4jEntity implements Comparable<Role> {
+
+    private @NonNull @NotNull final String name;
+
+    @Override
+    public int compareTo(Role o) {
+        return this.name.compareTo(o.name);
     }
 }

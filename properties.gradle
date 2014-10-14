@@ -22,6 +22,7 @@ ext {
       javaVersion = "1.8"
       codahale="3.0.2"
       jmhVersion = "0.5.5" 
+      springDataNeo4jVersion = "3.0.0.RELEASE"
       springSecurityOauth2Version="1.0.5.RELEASE"
       javaxValidationVersion = "1.1.0.Final"
       hibernateValidatorVersion = "5.1.1.Final"

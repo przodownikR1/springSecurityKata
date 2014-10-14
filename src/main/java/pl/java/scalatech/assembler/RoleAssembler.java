@@ -15,7 +15,7 @@ public class RoleAssembler extends ResourceAssemblerSupport<Role, RoleResource> 
     public RoleResource toResource(Role entity) {
         RoleResource rr = new RoleResource();
         rr.setDesc(entity.getDesc());
-        rr.setRoleId(entity.getId());
+        rr.setRoleId(entity.getName());
         return rr;
     }
 

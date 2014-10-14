@@ -1,6 +1,6 @@
 package pl.java.scalatech.assembler;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.Data;
@@ -36,11 +36,11 @@ public class UserResource extends ResourceSupport {
 
     private boolean logged;
 
-    private Date lastLoginAt;
+    private LocalDate lastLoginAt;
 
-    private Date lastIncorrectLogin;
+    private LocalDate lastIncorrectLogin;
 
-    private Date attemptLoginDate;
+    private LocalDate attemptLoginDate;
 
     private int attemptLoginCount;
     
