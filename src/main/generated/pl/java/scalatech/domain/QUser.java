@@ -39,10 +39,10 @@ public class QUser extends EntityPathBase<User> {
     public final BooleanPath credentialsNonExpired = createBoolean("credentialsNonExpired");
 
     //inherited
-    public final DateTimePath<java.util.Date> dateAdded = _super.dateAdded;
+    public final DatePath<java.time.LocalDate> dateAdded = _super.dateAdded;
 
     //inherited
-    public final DateTimePath<java.util.Date> dateModification = _super.dateModification;
+    public final DatePath<java.time.LocalDate> dateModification = _super.dateModification;
 
     //inherited
     public final BooleanPath disabled = _super.disabled;

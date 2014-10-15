@@ -19,9 +19,9 @@ public class QPKEntity extends EntityPathBase<PKEntity<?>> {
 
     public static final QPKEntity pKEntity = new QPKEntity("pKEntity");
 
-    public final DateTimePath<java.util.Date> dateAdded = createDateTime("dateAdded", java.util.Date.class);
+    public final DatePath<java.time.LocalDate> dateAdded = createDate("dateAdded", java.time.LocalDate.class);
 
-    public final DateTimePath<java.util.Date> dateModification = createDateTime("dateModification", java.util.Date.class);
+    public final DatePath<java.time.LocalDate> dateModification = createDate("dateModification", java.time.LocalDate.class);
 
     public final BooleanPath disabled = createBoolean("disabled");
 

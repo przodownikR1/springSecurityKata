@@ -22,10 +22,10 @@ public class QRole extends EntityPathBase<Role> {
     public final QPKEntity _super = new QPKEntity(this);
 
     //inherited
-    public final DateTimePath<java.util.Date> dateAdded = _super.dateAdded;
+    public final DatePath<java.time.LocalDate> dateAdded = _super.dateAdded;
 
     //inherited
-    public final DateTimePath<java.util.Date> dateModification = _super.dateModification;
+    public final DatePath<java.time.LocalDate> dateModification = _super.dateModification;
 
     public final StringPath desc = createString("desc");
 
