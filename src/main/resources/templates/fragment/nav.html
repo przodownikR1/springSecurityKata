@@ -86,10 +86,21 @@
                 
                  
                <li class="divider-vertical" />
-                 <li class="dropdown"> 
-                   <li ><a href="#" th:href="@{/logout}"><span class="glyphicon glyphicon-info-sign"  data-toggle="modal" data-target="#myModal"></span>Logout</a></li>
-                  </li>
-          </ul>
+					<li>
+						<div
+							th:with="currentUser=${#httpServletRequest.userPrincipal?.principal}">
+							<div th:if="${currentUser != null}">
+
+								<form th:action="@{/logout}" method="post">
+									<input type="submit" value="logout">
+									<div th:text="${currentUser.login}"></div>
+									</input> <input th:name="${_csrf.parameterName}" type="hidden"
+										th:value="${_csrf.token}" />
+								</form>
+							</div>
+						</div>
+					</li>
+				</ul>
            
           
         
