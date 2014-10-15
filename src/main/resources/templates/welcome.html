@@ -42,12 +42,17 @@ Logged user: <span sec:authentication="name">Bob</span>
 Logged user: <span sec:authentication="name">someUser</span>
 <!-- Roles: <span sec:authentication="principal.authorities">[ROLE_X, ROLE_Y]</span> -->
 
-
+<div th:with="currentUser=${#httpServletRequest.userPrincipal?.principal}">
+<div th:if="${currentUser!=null}">
 <form th:action="@{/logout}" method="post">
          <input type="submit" value="Log out" class="btn btn-primary btn-large"/>
              <input th:name="${_csrf.parameterName}" type="hidden" th:value="${_csrf.token}" /> 
           
 </form>
+  <p th:text="${currentUser.login}">jan kowalski</p>
+</div>
+
+</div>
 
 <br />
 
