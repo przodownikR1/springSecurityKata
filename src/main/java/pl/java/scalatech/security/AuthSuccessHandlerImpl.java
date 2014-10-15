@@ -32,12 +32,12 @@ public class AuthSuccessHandlerImpl extends SavedRequestAwareAuthenticationSucce
             ServletException {
 
         super.onAuthenticationSuccess(request, response, authentication);
-        // TODO moze byc kilka rodzajow userow
+
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         log.info("++++       authSuccessHandler           {}", userDetails.getUsername());
 
-        if (userDetails != null && userDetails.getUsername() != null) {
+        if (userDetails.getUsername() != null) {
 
             log.info("!!!!!!!!!!! TODO");
         }

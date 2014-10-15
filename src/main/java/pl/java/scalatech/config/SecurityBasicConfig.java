@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -96,27 +97,26 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
             
              
         }
-      
+
        @Autowired
         public void configureGlobal(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder, AuthenticationManagerBuilder auth) throws Exception {
-            log.info("+++++                         userDetailsService");
-            
             auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
         }
         
-   /*   @Autowired
-        public void configureGlobal(AuthenticationManagerBuilder auth,PasswordEncoder passwordEncoder) throws Exception {
-           //test=$2a$10$aX5e.eGXfbujQeQ1z1sP2.6p0z08Nu4IwGv/Qyik6UIFHltglwrhm
-           auth.inMemoryAuthentication().passwordEncoder(passwordEncoder)
-           .withUser("user").password("$2a$10$aX5e.eGXfbujQeQ1z1sP2.6p0z08Nu4IwGv/Qyik6UIFHltglwrhm").roles("USER").and()
-           .withUser("business").password("$2a$10$aX5e.eGXfbujQeQ1z1sP2.6p0z08Nu4IwGv/Qyik6UIFHltglwrhm").roles("BUSINESS").and()
-           .withUser("admin").password("$2a$10$aX5e.eGXfbujQeQ1z1sP2.6p0z08Nu4IwGv/Qyik6UIFHltglwrhm").roles("USER", "ADMIN");
-
-        }*/
+        /*
+         * @Autowired
+         * public void configureGlobal(AuthenticationManagerBuilder auth,PasswordEncoder passwordEncoder) throws Exception {
+         * //test=$2a$10$aX5e.eGXfbujQeQ1z1sP2.6p0z08Nu4IwGv/Qyik6UIFHltglwrhm
+         * auth.inMemoryAuthentication().passwordEncoder(passwordEncoder)
+         * .withUser("user").password("$2a$10$aX5e.eGXfbujQeQ1z1sP2.6p0z08Nu4IwGv/Qyik6UIFHltglwrhm").roles("USER").and()
+         * .withUser("business").password("$2a$10$aX5e.eGXfbujQeQ1z1sP2.6p0z08Nu4IwGv/Qyik6UIFHltglwrhm").roles("BUSINESS").and()
+         * .withUser("admin").password("$2a$10$aX5e.eGXfbujQeQ1z1sP2.6p0z08Nu4IwGv/Qyik6UIFHltglwrhm").roles("USER", "ADMIN");
+         * }
+         */
     }
         
 
-    @Configuration         
+    @Configuration
     @Order(2)  
     public static class APISecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 

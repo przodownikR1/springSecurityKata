@@ -1,9 +1,5 @@
 package pl.java.scalatech.security;
 
-import static com.google.common.collect.Lists.newArrayList;
-
-import java.util.List;
-
 import lombok.extern.slf4j.Slf4j;
 
 import org.jasypt.encryption.StringEncryptor;
@@ -14,9 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import pl.java.scalatech.annotation.SecurityComponent;
 import pl.java.scalatech.domain.User;
-import pl.java.scalatech.repository.RoleRepository;
 import pl.java.scalatech.repository.UserRepository;
 
 @Slf4j
@@ -30,10 +26,6 @@ public class UserServiceDetailsImpl implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private RoleRepository roleRepository;
-
-    List<User> users = newArrayList();
 
     @Autowired
     private StringEncryptor strongEncryptor;

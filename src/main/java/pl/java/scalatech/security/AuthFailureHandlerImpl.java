@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler;
 import org.springframework.security.web.util.UrlUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import pl.java.scalatech.annotation.SecurityComponent;
