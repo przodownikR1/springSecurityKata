@@ -1,7 +1,9 @@
 package pl.java.scalatech.test;
 
+import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
+import org.fest.assertions.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,19 +25,29 @@ import pl.java.scalatech.config.ServiceConfig;
 import pl.java.scalatech.service.MyService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = { SecurityBasicConfig.class, MongoRepositoryConfig.class, MongoDBConfig.class, ServiceConfig.class })
+@SpringApplicationConfiguration(classes = { SecurityConfig.class, MongoDBConfig.class, MongoRepositoryConfig.class, ServiceConfig.class })
 public class SampleSecureApplicationTests {
     @Autowired
     private MyService service;
     @Autowired
     private ApplicationContext context;
     private Authentication authentication;
-    
 
     @Before
     public void init() {
+
         AuthenticationManager authenticationManager = this.context.getBean(AuthenticationManager.class);
-        this.authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("user", "slawek"));
+        this.authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("przodownik", "test"));
+
+    }
+
+    @Test
+    public void shouldRoleSetWork() {
+
+        assertThat(authentication.getAuthorities()).hasSize(1);
+        assertThat(authentication.getName()).isEqualTo("przodownik");
+        assertThat(authentication.isAuthenticated()).isTrue();
+
     }
 
     @After
@@ -45,13 +57,6 @@ public class SampleSecureApplicationTests {
 
     @Test
     public void shouldSecure() throws Exception {
-        SecurityContextHolder.getContext().setAuthentication(this.authentication);
-        assertEquals(this.service.secure(), MyService.RESULT);
-
-    }
-
-    @Test
-    public void shouldAuthenticated() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
         assertEquals(this.service.secure(), MyService.RESULT);
     }
@@ -64,9 +69,15 @@ public class SampleSecureApplicationTests {
 
     @Test(expected = AccessDeniedException.class)
     public void shouldDenied() throws Exception {
-
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
         assertEquals(this.service.denied(), MyService.RESULT);
+    }
+
+    @Test(expected = AccessDeniedException.class)
+    public void shouldAuthenticated() throws Exception {
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        System.err.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
+        assertEquals(this.service.other(), MyService.RESULT);
     }
 
 }
