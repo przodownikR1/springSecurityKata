@@ -3,7 +3,6 @@ package pl.java.scalatech.test;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
-import org.fest.assertions.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,9 +19,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import pl.java.scalatech.config.MongoDBConfig;
 import pl.java.scalatech.config.MongoRepositoryConfig;
-import pl.java.scalatech.config.SecurityBasicConfig;
 import pl.java.scalatech.config.ServiceConfig;
 import pl.java.scalatech.service.MyService;
+import pl.java.scalatech.test.secure.SecurityConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = { SecurityConfig.class, MongoDBConfig.class, MongoRepositoryConfig.class, ServiceConfig.class })
@@ -76,7 +75,6 @@ public class SampleSecureApplicationTests {
     @Test(expected = AccessDeniedException.class)
     public void shouldAuthenticated() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
-        System.err.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
         assertEquals(this.service.other(), MyService.RESULT);
     }
 
