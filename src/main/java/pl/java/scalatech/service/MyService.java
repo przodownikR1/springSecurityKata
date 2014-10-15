@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class MyService {
     public static String RESULT = "hello przodownik";
 
-    @Secured(value = { "USER", "ADMIN" })
+    @Secured("ROLE_USER" )
     public String secure() {
         return RESULT;
     }
@@ -23,7 +23,7 @@ public class MyService {
         return RESULT;
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String other() {
         return RESULT;
     }

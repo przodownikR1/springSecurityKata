@@ -117,7 +117,12 @@ dependencies {
     compile ("javax.el:el-api:2.2")
     compile ("org.glassfish.web:el-impl:2.2")
 
-
+    compile("org.hdiv:hdiv-core:2.1.8"){ exclude(module: 'commons-logging') }
+    compile("org.hdiv:hdiv-config:2.1.8"){ exclude(module: 'commons-logging')}
+    
+    compile("org.hdiv:hdiv-spring-mvc:2.1.8"){ exclude(module: 'commons-logging')} 
+    compile("org.hdiv:hdiv-thymeleaf:2.1.8"){ exclude(module: 'commons-logging') }
+    
     compile("org.apache.httpcomponents:httpclient:${httpClientVersion}")
     compile("org.apache.httpcomponents:fluent-hc:${httpClientVersion}")
 

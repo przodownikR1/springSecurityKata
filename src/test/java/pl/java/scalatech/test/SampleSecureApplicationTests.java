@@ -2,6 +2,7 @@ package pl.java.scalatech.test;
 
 import static org.junit.Assert.assertEquals;
 
+import org.fest.assertions.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,28 +15,42 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.google.common.collect.Lists;
 
 import pl.java.scalatech.config.MongoDBConfig;
 import pl.java.scalatech.config.MongoRepositoryConfig;
-import pl.java.scalatech.config.SecurityBasicConfig;
 import pl.java.scalatech.config.ServiceConfig;
 import pl.java.scalatech.service.MyService;
+import pl.java.scalatech.test.security.SecurityConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = { SecurityBasicConfig.class, MongoRepositoryConfig.class, MongoDBConfig.class, ServiceConfig.class })
+@SpringApplicationConfiguration(classes = { SecurityConfig.class, MongoDBConfig.class, MongoRepositoryConfig.class, ServiceConfig.class })
 public class SampleSecureApplicationTests {
     @Autowired
     private MyService service;
     @Autowired
     private ApplicationContext context;
     private Authentication authentication;
-    
 
+  
     @Before
     public void init() {
+
         AuthenticationManager authenticationManager = this.context.getBean(AuthenticationManager.class);
-        this.authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("user", "slawek"));
+        this.authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("przodownik", "test"));
+
+    }
+
+    @Test
+    public void shouldRoleSetWork() {
+        
+        Assertions.assertThat(authentication.getAuthorities()).hasSize(1);
+        Assertions.assertThat(authentication.getName()).isEqualTo("przodownik");
+        Assertions.assertThat(authentication.isAuthenticated()).isTrue();
+
     }
 
     @After
@@ -47,26 +62,29 @@ public class SampleSecureApplicationTests {
     public void shouldSecure() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
         assertEquals(this.service.secure(), MyService.RESULT);
-
     }
-
-    @Test
-    public void shouldAuthenticated() throws Exception {
-        SecurityContextHolder.getContext().setAuthentication(this.authentication);
-        assertEquals(this.service.secure(), MyService.RESULT);
-    }
-
+    
     @Test
     public void shouldPreauth() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
         assertEquals(this.service.authorized(), MyService.RESULT);
     }
 
-    @Test(expected = AccessDeniedException.class)
-    public void shouldDenied() throws Exception {
 
+    @Test(expected=AccessDeniedException.class)
+    public void shouldDenied() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
         assertEquals(this.service.denied(), MyService.RESULT);
     }
+    
+    @Test(expected=AccessDeniedException.class)
+    public void shouldAuthenticated() throws Exception {
+        SecurityContextHolder.getContext().setAuthentication(this.authentication);
+        System.err.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
+        assertEquals(this.service.other(), MyService.RESULT);
+    }
+
+ 
+  
 
 }

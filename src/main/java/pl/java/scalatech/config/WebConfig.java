@@ -1,12 +1,21 @@
 package pl.java.scalatech.config;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+
 import lombok.extern.slf4j.Slf4j;
 
+import org.hdiv.filter.ValidatorFilter;
+import org.hdiv.listener.InitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -79,7 +88,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/register").setViewName("register");
         registry.addViewController("/hello").setViewName("hello");
         registry.addViewController("/login").setViewName("login");
-        //registry.addViewController("/accessdenied").setViewName("accessdenied");
+        // registry.addViewController("/accessdenied").setViewName("accessdenied");
     }
 
     @Bean
@@ -96,17 +105,17 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return lci;
     }
 
-  /*  @Bean
-    public FormattingConversionService conversionService() {
-        DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService(false);
-
-        conversionService.addFormatterForFieldAnnotation(new NumberFormatAnnotationFormatterFactory());
-
-        DateFormatterRegistrar registrar = new DateFormatterRegistrar();
-        registrar.setFormatter(new DateFormatter("yyyy-MM-dd"));
-        registrar.registerFormatters(conversionService);
-        return conversionService;
-    }*/
+    /*
+     * @Bean
+     * public FormattingConversionService conversionService() {
+     * DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService(false);
+     * conversionService.addFormatterForFieldAnnotation(new NumberFormatAnnotationFormatterFactory());
+     * DateFormatterRegistrar registrar = new DateFormatterRegistrar();
+     * registrar.setFormatter(new DateFormatter("yyyy-MM-dd"));
+     * registrar.registerFormatters(conversionService);
+     * return conversionService;
+     * }
+     */
 
     @Bean
     public TemplateResolver templateResolver() {
@@ -154,6 +163,22 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         String favicon() {
             return "forward:/resources/images/favicon.ico";
         }
+    }
+
+    @Bean
+    public ServletContextInitializer validatorFilter() {
+        ServletContextInitializer initializer = new ServletContextInitializer() {
+            public void onStartup(ServletContext servletContext) throws ServletException {
+
+                servletContext.addListener(new InitListener());
+                // ValidatorFilter
+                FilterRegistration.Dynamic registration = servletContext.addFilter("validatorFilter", new ValidatorFilter());
+                EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST);
+
+                registration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
+            }
+        };
+        return initializer;
     }
 }
 /*
