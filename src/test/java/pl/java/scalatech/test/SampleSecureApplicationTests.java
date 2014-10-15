@@ -35,7 +35,6 @@ public class SampleSecureApplicationTests {
     private ApplicationContext context;
     private Authentication authentication;
 
-  
     @Before
     public void init() {
 
@@ -46,7 +45,7 @@ public class SampleSecureApplicationTests {
 
     @Test
     public void shouldRoleSetWork() {
-        
+
         Assertions.assertThat(authentication.getAuthorities()).hasSize(1);
         Assertions.assertThat(authentication.getName()).isEqualTo("przodownik");
         Assertions.assertThat(authentication.isAuthenticated()).isTrue();
@@ -63,28 +62,24 @@ public class SampleSecureApplicationTests {
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
         assertEquals(this.service.secure(), MyService.RESULT);
     }
-    
+
     @Test
     public void shouldPreauth() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
         assertEquals(this.service.authorized(), MyService.RESULT);
     }
 
-
-    @Test(expected=AccessDeniedException.class)
+    @Test(expected = AccessDeniedException.class)
     public void shouldDenied() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
         assertEquals(this.service.denied(), MyService.RESULT);
     }
-    
-    @Test(expected=AccessDeniedException.class)
+
+    @Test(expected = AccessDeniedException.class)
     public void shouldAuthenticated() throws Exception {
         SecurityContextHolder.getContext().setAuthentication(this.authentication);
         System.err.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
         assertEquals(this.service.other(), MyService.RESULT);
     }
-
- 
-  
 
 }
