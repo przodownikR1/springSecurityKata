@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +25,9 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -155,6 +160,25 @@ public class WebConfig extends WebMvcConfigurerAdapter {
             return "forward:/resources/images/favicon.ico";
         }
     }
+    
+    @Override
+    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
+        exceptionResolvers.add(new HandlerExceptionResolver() {
+            @Override
+            public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+                try {
+                    log.error("An error has occured: {}", ex.getMessage());
+                   
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    return new ModelAndView();
+                } catch (Exception handlerException) {
+                    log.warn("Handling of [{}] resulted in Exception", ex.getClass().getName(), handlerException);
+                }
+                return null;
+            }
+        });
+    }
+    
 }
 /*
  * @Bean
