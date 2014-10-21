@@ -92,9 +92,9 @@
 							<div th:if="${currentUser != null}">
 
 								<form th:action="@{/logout}" method="post">
-									<input type="submit" value="logout">
+									<button type="submit">Log out</button>
 									<div th:text="${currentUser.login}"></div>
-									</input> <input th:name="${_csrf.parameterName}" type="hidden"
+								    <input th:name="${_csrf.parameterName}" type="hidden"
 										th:value="${_csrf.token}" />
 								</form>
 							</div>

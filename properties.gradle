@@ -28,4 +28,6 @@ ext {
       httpClientVersion="4.3.5"
       hsqldbVersion = "2.3.1"
       queryDslVersion ="3.4.3"
+      nexusLogin = "admin"
+      nexusPassword = "admin123"
 }

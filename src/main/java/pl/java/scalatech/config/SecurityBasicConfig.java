@@ -34,7 +34,7 @@ import pl.java.scalatech.annotation.SecurityComponent;
 @Slf4j
 @ComponentScan(basePackages = { "pl.java.scalatech.security" }, useDefaultFilters = false, includeFilters = { @Filter(Service.class), @Filter(SecurityComponent.class) })
 public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
-    private static final int  MAX_SESSIONS    = 3;
+    private static final int  MAX_SESSIONS    = 1;
     
     
     @Configuration

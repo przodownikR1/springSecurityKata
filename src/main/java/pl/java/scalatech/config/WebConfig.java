@@ -180,31 +180,3 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
     
 }
-/*
- * @Bean
- * public SpringTemplateEngine templateEngine() {
- * SpringTemplateEngine engine = new SpringTemplateEngine();
- * engine.setTemplateResolver(templateResolver());
- * Set<IDialect> dialects = new HashSet<>();
- * dialects.add(springSecurityDialect());
- * dialects.add(layoutDialect());
- * engine.setAdditionalDialects(dialects);
- * return engine;
- * }
- * @Bean
- * public ThymeleafViewResolver viewResolver() {
- * ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
- * viewResolver.setTemplateEngine(templateEngine());
- * return viewResolver;
- * }
- * @Bean
- * public LayoutDialect layoutDialect(){
- * LayoutDialect dialect = new LayoutDialect();
- * return dialect;
- * }
- * @Bean
- * public SpringSecurityDialect springSecurityDialect() {
- * SpringSecurityDialect springSecurityDialect = new SpringSecurityDialect();
- * return springSecurityDialect;
- * }
- */

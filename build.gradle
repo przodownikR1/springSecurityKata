@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        maven { url "http://localhost:8487/nexus/content/groups/public/" }
         maven { url "http://repo.spring.io/libs-milestone" }
         mavenLocal()
     }
@@ -9,6 +10,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: "groovy"
 apply plugin: 'eclipse'
+apply plugin:  'maven'
 apply plugin: 'build-dashboard'
 apply plugin: 'codenarc'
 apply from: './properties.gradle'
@@ -17,6 +19,9 @@ apply plugin: 'war'
 apply plugin: 'sonar'
 
 sourceCompatibility = 1.8
+
+group = 'pl.java.scalatech'
+version = '0.1.0'
 
 jar {
     baseName = 'springSecurityKata'
@@ -58,6 +63,7 @@ sourceSets {
 
 
 repositories {
+    maven {url "http://localhost:8487/nexus/content/groups/public/"}
     mavenCentral()
     maven { url "http://repo.spring.io/libs-snapshot" }
     maven { url "http://repo.codahale.com/" }
@@ -145,8 +151,20 @@ dependencies {
 
 
 }
-uploadArchives {
+/*uploadArchives {
     repositories { flatDir { dirs 'repos' } }
+}*/
+
+uploadArchives {
+    def nexusUsername = "admin"
+    def nexusPassword = "admin123"
+    repositories {
+        mavenDeployer { repository(url: "http://localhost:8487/nexus/content/groups/public/"){
+            authentication ( userName: nexusUsername, password: nexusPassword )
+        }
+        
+    }
+}
 }
 /*configurations.all {
 resolutionStrategy {
