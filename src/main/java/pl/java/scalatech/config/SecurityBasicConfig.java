@@ -3,6 +3,7 @@ package pl.java.scalatech.config;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +37,11 @@ import pl.java.scalatech.annotation.SecurityComponent;
 public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
     private static final int  MAX_SESSIONS    = 1;
     
+    
+   /* @Bean
+    public SecurityEvaluationContextExtension securityEvaluationContextExtension() {  
+      return new SecurityEvaluationContextExtension();    
+    }*/
     
     @Configuration
     @Order(1)                                                        

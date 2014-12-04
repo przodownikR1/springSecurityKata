@@ -1,0 +1,22 @@
+def testResultsDir = "$buildDir/test-results/"
+
+apply plugin: "sonar-runner"
+///apply plugin: 'sonarqube-runner'
+sonarRunner {
+    sonarProperties {
+       property "sonar.projectKey", "springSecurityPOC"
+       property "sonar.projectName", "springSecurityPOC"
+
+        property "sonar.junit.reportsPath", testResultsDir
+
+        // Address of SonarQube server
+        property "sonar.host.url", "http://localhost:9000"
+
+        // SonarQube stores the test results in this database
+        property "sonar.jdbc.url", "jdbc:mysql://localhost:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true"
+        property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
+        property "sonar.jdbc.username", "sonar"
+        property "sonar.jdbc.password", "sonar"
+    }
+}
+
