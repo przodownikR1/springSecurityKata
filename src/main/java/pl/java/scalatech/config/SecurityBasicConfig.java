@@ -23,6 +23,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.header.HeaderWriter;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.stereotype.Service;
 
 import pl.java.scalatech.annotation.SecurityComponent;
@@ -62,7 +64,15 @@ public class SecurityBasicConfig extends WebSecurityConfigurerAdapter {
             AccessDeniedHandlerImpl deniedhandler = new AccessDeniedHandlerImpl();
             deniedhandler.setErrorPage("/accessdenied.html");
             http
-               .authorizeRequests().antMatchers("/welcome", "/api/ping", "/signup", "/about","/register","/currentUser").permitAll()
+             .headers()
+             .cacheControl()
+             .contentTypeOptions()
+             .frameOptions()
+             .xssProtection()
+             .addHeaderWriter(new StaticHeadersWriter("X-Content-Security-Policy","default-src 'self'"))
+             .httpStrictTransportSecurity().and()
+                
+              .authorizeRequests().antMatchers("/welcome", "/api/ping", "/signup", "/about","/register","/currentUser").permitAll()
               .antMatchers("/api/admin/**").hasRole("ADMIN")
               .antMatchers("/api/appContext").hasRole("ADMIN")
               .antMatchers("/metrics/**").hasAuthority("ADMIN")
